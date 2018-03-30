@@ -3,7 +3,6 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-
 engine = create_engine('sqlite:///WorkWebSite.sqlite')
 
 db_session = scoped_session(sessionmaker(bind=engine))
@@ -11,14 +10,16 @@ db_session = scoped_session(sessionmaker(bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
 
+
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     first_name = Column(String(50))
     last_name = Column(String(50))
     nickname = Column(String(50))
-    role_id = Column(Integer, ForeignKey('roles.id'))
+    password = Column(String(30))
     email = Column(String(120), unique=True)
+    role_id = Column(Integer, ForeignKey('roles.id'))
 
 
 class Role(Base):
@@ -26,10 +27,12 @@ class Role(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
 
+
 class Project(Base):
     __tablename__ = 'projects'
     id = Column(Integer, primary_key=True)
     name = Column(String(150))
+
 
 class Stage(Base):
     __tablename__ = 'stages'
@@ -38,6 +41,7 @@ class Stage(Base):
     start_date = Column(DateTime)
     finish_date = Column(DateTime)
     project_id = Column(Integer, ForeignKey('projects.id'))
+
 
 class ProjectUser(Base):
     __tablename__ = 'projects_users'
@@ -48,4 +52,3 @@ class ProjectUser(Base):
 
 if __name__ == "__main__":
     Base.metadata.create_all(bind=engine)
-
