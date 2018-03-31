@@ -11,45 +11,45 @@
 
         <div class="col-6">
             <h2>Регистрация</h2>
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="POST" action="{{ url_for('add_user') }}">
                 <div class="form-group">
                 <label class="control-label col-xs-3" for="first_name">Имя:</label>
-                <div class="col-xs-9">
-                  <input type="text" class="form-control" id="first_name" placeholder="Введите имя">
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Введите имя">
+                    </div>
                 </div>
-              </div>
               <div class="form-group">
                 <label class="control-label col-xs-3" for="last_name">Фамилия:</label>
                 <div class="col-xs-9">
-                  <input type="text" class="form-control" id="last_name" placeholder="Введите фамилию">
+                  <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Введите фамилию">
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label col-xs-3" for="nickname">Ник:</label>
                 <div class="col-xs-9">
-                  <input type="text" class="form-control" id="nickname" placeholder="Введите ник">
+                  <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Введите ник">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-xs-3" for="inputEmail">Email:</label>
+                <label class="control-label col-xs-3" for="email">Email:</label>
                 <div class="col-xs-9">
-                  <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-xs-3" for="inputPassword">Пароль:</label>
+                <label class="control-label col-xs-3" for="password">Пароль:</label>
                 <div class="col-xs-9">
-                  <input type="password" class="form-control" id="inputPassword" placeholder="Введите пароль">
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Введите пароль">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-xs-3" for="confirmPassword">Подтвердите пароль:</label>
+                <label class="control-label col-xs-3" for="confirm_password">Подтвердите пароль:</label>
                 <div class="col-xs-9">
-                  <input type="password" class="form-control" id="confirmPassword" placeholder="Введите пароль ещё раз">
+                  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Введите пароль ещё раз">
                 </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-xs-3" for="confirmPassword">Выберите свою роль:</label>
+                  <label class="control-label col-xs-3" for="role">Выберите свою роль:</label>
                    <select class="form-control">
                        <option>Заказчик</option>
                        <option>Исполнитель</option>
