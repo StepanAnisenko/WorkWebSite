@@ -18,7 +18,7 @@ def add_user():
     password = request.form.get('password')
     confirm_password = request.form.get('confrim_password')
     if password != confirm_password:
-        return  render_template('index.html')
+        return  render_template('reg_error.html')
     return jsonify({'result' : 'ok'})
 
 
