@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, jsonify
+from app.mod_auth.db import User, db_session, Role
+
 
 my_flask_app = Flask(__name__)
 
@@ -16,9 +18,19 @@ def registration():
 def add_user():
     print(request.form)
     password = request.form.get('password')
-    confirm_password = request.form.get('confrim_password')
+    confirm_password = request.form.get('confirm_password')
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    email = request.form.get('email')
+    nickname = request.form.get('nickname')
+    role = 3
     if password != confirm_password:
         return  render_template('reg_error.html')
+    else:
+        client = User(first_name, last_name, nickname, password, email, role)
+        db_session.add(client)
+        db_session.commit()
+
     return jsonify({'result' : 'ok'})
 
 
