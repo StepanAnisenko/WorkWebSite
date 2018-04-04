@@ -10,9 +10,14 @@ def index():
     return render_template('index.html')
 
 
-@my_flask_app.route('/registration/')
+@my_flask_app.route('/registration/', methods=['GET', 'POST'])
 def registration():
-    return render_template('registration.html')
+    list_of_roles =[]
+    roles = Role.query.all()
+    for role in roles:
+        list_of_roles.append(role.name)
+    return render_template('registration.html', list_of_roles=list_of_roles)
+
 
 @my_flask_app.route('/add_user/', methods=['POST'])
 def add_user():
@@ -23,13 +28,14 @@ def add_user():
     last_name = request.form.get('last_name')
     email = request.form.get('email')
     nickname = request.form.get('nickname')
-    role = 3
+    print(request.form.get('role'))
     if password != confirm_password:
         return  render_template('reg_error.html')
     else:
-        client = User(first_name, last_name, nickname, password, email, role)
-        db_session.add(client)
-        db_session.commit()
+        client = User(first_name, last_name, nickname, password, email, role_id=3)
+        print(client)
+        # db_session.add(client)
+        # db_session.commit()
 
     return jsonify({'result' : 'ok'})
 
