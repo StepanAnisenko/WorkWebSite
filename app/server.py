@@ -40,8 +40,8 @@ def add_user():
     else:
         client = User(first_name, last_name, nickname, password, email, role_id)
         print(client)
-        # db_session.add(client)
-        # db_session.commit()
+        db_session.add(client)
+        db_session.commit()
 
     return render_template("index.html")
 
