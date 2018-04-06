@@ -29,7 +29,7 @@ def add_user():
     last_name = request.form.get('last_name')
     email = request.form.get('email')
     nickname = request.form.get('nickname')
-    print(request.form.get('role'))
+    print("РОль:  %s" %request.form.get('role'))
     if password != confirm_password:
         return  render_template('reg_error.html')
     else:

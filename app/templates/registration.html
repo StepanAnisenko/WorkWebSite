@@ -52,7 +52,11 @@
                   <label class="control-label col-xs-3" for="role">Выберите свою роль:</label>
                    <select class="form-control">
                        {% for each in list_of_roles %}
-                            <option selected value="{{each}}" id={{each}} name="role">{{each}}</option>
+                            {% if each == manager %}
+                                <option selected value="{{each}}" id=manager name="role">{{each}}</option>
+                            {% else %}
+                                <option selected value="{{each}}" id=worker name="role">{{each}}</option>
+                            {% endif %}
                        {% endfor %}
                    </select>
               </div>
