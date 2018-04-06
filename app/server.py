@@ -29,16 +29,21 @@ def add_user():
     last_name = request.form.get('last_name')
     email = request.form.get('email')
     nickname = request.form.get('nickname')
-    print("РОль:  %s" %request.form.get('role'))
+    roles = Role.query.all()
+    role_name = request.form.get('role')
+    role_id = 2
+    for role in roles:
+        if role_name == role.name: role_id =role.id
+
     if password != confirm_password:
         return  render_template('reg_error.html')
     else:
-        client = User(first_name, last_name, nickname, password, email, role_id=3)
+        client = User(first_name, last_name, nickname, password, email, role_id)
         print(client)
         # db_session.add(client)
         # db_session.commit()
 
-    return jsonify({'result' : 'ok'})
+    return render_template("index.html")
 
 
 if __name__ == '__main__':
