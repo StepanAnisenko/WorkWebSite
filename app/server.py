@@ -46,5 +46,21 @@ def add_user():
     return render_template("index.html")
 
 
+
+
+@my_flask_app.route('/user_auth/', methods=['POST'])
+def user_auth():
+    password = request.form.get('password')
+    email = request.form.get('email')
+    users = User.query.all()
+    for user in users:
+        if user.email == email and user.password == password:
+            if user.role_id == 2:
+                return render_template("menu_manager.html")
+            elif user.role_id == 3:
+                return render_template("menu_worker.html")
+
+
+
 if __name__ == '__main__':
     my_flask_app.run(debug=True)

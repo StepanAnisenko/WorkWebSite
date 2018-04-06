@@ -61,6 +61,7 @@ class ProjectUser(Base):
 if __name__ == "__main__":
 
     Base.metadata.create_all(bind=engine)
+    print(settings.SQL_ALCHEMY_URI)
     db_session.query(Role).delete()
     db_session.commit()
     r1 = Role(name="admin")
