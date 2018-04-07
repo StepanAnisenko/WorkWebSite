@@ -65,10 +65,10 @@ def login():
       # если пользователь с тамим логином и паролем существует -
       # авторизуем и делаем редирект
         login_user(user, remember=remember_me)
-        if user.role_id == 2:
-            return render_template("menu_manager.html")
-        elif user.role_id == 3:
-            return render_template("menu_worker.html")
+        # if user.role_id == 2:
+        return render_template("menu_manager.html", user_nickname = user.nickname, user_role = user.role_id)
+        # elif user.role_id == 3:
+        #     return render_template("menu_worker.html")
     return render_template("index.html")
 
 @my_flask_app.route("/logout")
