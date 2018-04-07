@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 from app.mod_auth.db import User, db_session, Role
+from flask_login import LoginManager, login_user, logout_user, login_required
 
-
+login_manager = LoginManager()
 my_flask_app = Flask(__name__)
-
+my_flask_app.secret_key = '123'
+login_manager.init_app(my_flask_app)
 
 @my_flask_app.route('/')
 def index():
@@ -46,21 +48,34 @@ def add_user():
     return render_template("index.html")
 
 
+@login_manager.user_loader
+def load_user(userid):
+    return db_session.query(User).filter(User.id==userid).first()
 
-
-@my_flask_app.route('/user_auth/', methods=['POST'])
-def user_auth():
+@my_flask_app.route("/login", methods=["GET", "POST"])
+def login():
+  if request.method == "POST":
     password = request.form.get('password')
     email = request.form.get('email')
-    users = User.query.all()
-    for user in users:
-        if user.email == email and user.password == password:
-            if user.role_id == 2:
-                return render_template("menu_manager.html")
-            elif user.role_id == 3:
-                return render_template("menu_worker.html")
+    remember_me = True
+    # ищем пользователя по логину и паролю
+    # get_user - внутренняя функция, для запроса к БД, например
+    user = db_session.query(User).filter(User.email==email).first()
+    if user and user.password == password:
+      # если пользователь с тамим логином и паролем существует -
+      # авторизуем и делаем редирект
+        login_user(user, remember=remember_me)
+        if user.role_id == 2:
+            return render_template("menu_manager.html")
+        elif user.role_id == 3:
+            return render_template("menu_worker.html")
+    return render_template("index.html")
 
-
+@my_flask_app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return render_template("index.html")
 
 if __name__ == '__main__':
     my_flask_app.run(debug=True)

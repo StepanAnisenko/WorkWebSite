@@ -30,6 +30,21 @@ class User(Base):
         self.nickname = nickname
         self.role_id = role_id
 
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+
 class Role(Base):
     __tablename__ = 'roles'
     id = Column(Integer, primary_key=True)
