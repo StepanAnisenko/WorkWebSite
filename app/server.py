@@ -17,8 +17,8 @@ def registration():
     list_of_roles =[]
     roles = Role.query.all()
     for role in roles:
-        if role.name != "admin":
-            list_of_roles.append(role.name)
+      if role.name != "admin":
+          list_of_roles.append(role.name)
     return render_template('registration.html', list_of_roles=list_of_roles)
 
 
