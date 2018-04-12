@@ -58,6 +58,10 @@ class Project(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(150))
 
+
+    def __init__(self, name):
+        self.name = name
+
 class Stage(Base):
     __tablename__ = 'stages'
     id = Column(Integer, primary_key=True)
@@ -71,6 +75,10 @@ class ProjectUser(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     project_id = Column(Integer, ForeignKey('projects.id'))
+
+    def __init__(self, user_id, project_id):
+        self.user_id=user_id
+        self.project_id=project_id
 
 
 if __name__ == "__main__":

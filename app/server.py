@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-from app.mod_auth.db import User, db_session, Role
-from flask_login import LoginManager, login_user, logout_user, login_required
+from app.mod_auth.db import User, db_session, Role, Project, ProjectUser
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 login_manager = LoginManager()
 my_flask_app = Flask(__name__)
@@ -48,10 +48,23 @@ def add_user():
     return render_template("index.html")
 
 @my_flask_app.route("/create_project", methods=['GET', 'POST'])
+@login_required
 def create_project():
+    user = current_user
     project_name = request.form.get("project_name")
-    print(project_name)
-    return render_template("menu_manager.html")
+    project = Project(project_name)
+    project_user = ProjectUser(user.id, project_name)
+    db_session.add(project)
+    db_session.add(project_user)
+    db_session.commit()
+    list_of_projects = []
+    projects_for_user = ProjectUser.query.filter(ProjectUser.user_id==user.id)
+    for proj in projects_for_user:
+        p = Project.query.filter_by(id=proj.id)
+        for pr in p:
+            list_of_projects.append(pr.name)
+    #print(list_of_projects)
+    return render_template("menu_manager.html", user_nickname = user.nickname, user_role = user.role_id, list_of_projects=list_of_projects)
 
 @login_manager.user_loader
 def load_user(userid):
@@ -64,16 +77,19 @@ def login():
     email = request.form.get('email')
     remember_me = True
     # ищем пользователя по логину и паролю
-    # get_user - внутренняя функция, для запроса к БД, например
     user = db_session.query(User).filter(User.email==email).first()
     if user and user.password == password:
       # если пользователь с тамим логином и паролем существует -
       # авторизуем и делаем редирект
         login_user(user, remember=remember_me)
-        # if user.role_id == 2:
-        return render_template("menu_manager.html", user_nickname = user.nickname, user_role = user.role_id)
-        # elif user.role_id == 3:
-        #     return render_template("menu_worker.html")
+        list_of_projects = []
+        projects_for_user = ProjectUser.query.filter(ProjectUser.user_id == user.id)
+        for proj in projects_for_user:
+            p = Project.query.filter_by(id=proj.id)
+            for pr in p:
+                list_of_projects.append(pr.name)
+        return render_template("menu_manager.html", user_nickname = user.nickname, user_role = user.role_id, list_of_projects=list_of_projects)
+
     return render_template("index.html")
 
 @my_flask_app.route("/logout")
