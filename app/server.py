@@ -47,6 +47,11 @@ def add_user():
 
     return render_template("index.html")
 
+@my_flask_app.route("/create_project", methods=['GET', 'POST'])
+def create_project():
+    project_name = request.form.get("project_name")
+    print(project_name)
+    return render_template("menu_manager.html")
 
 @login_manager.user_loader
 def load_user(userid):

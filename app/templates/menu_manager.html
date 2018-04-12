@@ -38,6 +38,7 @@
                                         </div>
 
                                         <!-- Modal body -->
+                                      <form class="form-inline my-2 my-lg-0" method="POST" action="{{ url_for('create_project') }}">
                                         <div class="modal-body">
                                           <div class="form-group">
                                             <label class="control-label col-xs-3" for="project_name">Имя проекта: </label>
@@ -49,10 +50,9 @@
 
                                         <!-- Modal footer -->
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Создать!</button>
+                                                <button type="submit" class="btn btn-success">Создать!</button>
                                         </div>
-
+                                      </form>
                                       </div>
                                     </div>
                                   </div>
