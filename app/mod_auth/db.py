@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 import settings
 
@@ -69,6 +69,7 @@ class Stage(Base):
     start_date = Column(DateTime)
     finish_date = Column(DateTime)
     project_id = Column(Integer, ForeignKey('projects.id'))
+    project_name = relationship("Project")
 
 class ProjectUser(Base):
     __tablename__ = 'projects_users'

@@ -71,9 +71,8 @@ def create_project():
 @login_required
 def show_stages():
     user = current_user
-    project_id = request.form.get("project_id")
-    project_name = request.args.get("id")
-    print(project_name)
+    project_id = request.args.get("project_id")
+
     projects_for_user = ProjectUser.query.filter(ProjectUser.user_id==user.id)
     dict_of_projects = {}
     for proj in projects_for_user:

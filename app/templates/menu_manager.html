@@ -59,12 +59,11 @@
                                  </div>
                 {% endif %}
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    {% for _,project_name in dict_of_projects.items() %}
-
-                        <a class="nav-link project_names" id="{{project_name}}" data-toggle="tab" href="{{ url_for('show_stages') }}"
+                    {% for project_id,project_name in dict_of_projects.items() %}
+                        <a class="nav-link project_names" id="{{project_name}}" href="{{ url_for('show_stages',
+                         project_id=project_id) }}"
                            role="tab" name="{{project_name}}" aria-controls="{{project_name}}"
                            aria-selected="true">{{project_name}}</a>
-
                     {% endfor %}
                 </div>
             </div>
@@ -76,13 +75,13 @@
             </div>
         </div>
     </div>
-    <script>
-        var elements = document.getElementsByClassName("project_names");
-        for (var i=0; i<elements.length; i++)
-        {
-            elements[i].onclick = function () {
-            location.href = "/show_stages/" + elements[i].id};
-        }
-    </script>
+    <!--<script>-->
+        <!--var elements = document.getElementsByClassName("project_names");-->
+        <!--for (var i=0; i<elements.length; i++)-->
+        <!--{-->
+            <!--elements[i].onclick = function () {-->
+            <!--location.href = "/show_stages/" + elements[i].id};-->
+        <!--}-->
+    <!--</script>-->
 </body>
 </html>
