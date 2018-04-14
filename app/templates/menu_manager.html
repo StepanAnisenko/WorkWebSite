@@ -59,11 +59,12 @@
                                  </div>
                 {% endif %}
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    {% for project_name in list_of_projects %}
-                      <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" name="{{project_name}}" aria-controls="v-pills-{{project_name}}" aria-selected="true">{{project_name}}</a>
-                      <!--<a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>-->
-                      <!--<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>-->
-                      <!--<a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>-->
+                    {% for _,project_name in dict_of_projects.items() %}
+
+                        <a class="nav-link project_names" id="{{project_name}}" data-toggle="tab" href="{{ url_for('show_stages') }}"
+                           role="tab" name="{{project_name}}" aria-controls="{{project_name}}"
+                           aria-selected="true">{{project_name}}</a>
+
                     {% endfor %}
                 </div>
             </div>
@@ -75,5 +76,13 @@
             </div>
         </div>
     </div>
+    <script>
+        var elements = document.getElementsByClassName("project_names");
+        for (var i=0; i<elements.length; i++)
+        {
+            elements[i].onclick = function () {
+            location.href = "/show_stages/" + elements[i].id};
+        }
+    </script>
 </body>
 </html>

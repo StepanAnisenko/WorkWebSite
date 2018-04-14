@@ -14,11 +14,9 @@ def index():
 
 @my_flask_app.route('/registration/', methods=['GET', 'POST'])
 def registration():
-    list_of_roles =[]
-    roles = Role.query.all()
-    for role in roles:
-      if role.name != "admin":
-          list_of_roles.append(role.name)
+    roles = db_session.query(Role.name).filter(Role.name!='admin').all()
+    print(roles)
+    list_of_roles = [x[0] for x in roles]
     return render_template('registration.html', list_of_roles=list_of_roles)
 
 
@@ -57,14 +55,36 @@ def create_project():
     db_session.add(project)
     db_session.add(project_user)
     db_session.commit()
-    list_of_projects = []
+    dict_of_projects = {}
     projects_for_user = ProjectUser.query.filter(ProjectUser.user_id==user.id)
     for proj in projects_for_user:
         p = Project.query.filter_by(id=proj.id)
         for pr in p:
-            list_of_projects.append(pr.name)
-    #print(list_of_projects)
-    return render_template("menu_manager.html", user_nickname = user.nickname, user_role = user.role_id, list_of_projects=list_of_projects)
+            dict_of_projects[pr.id] = pr.name
+    print(dict_of_projects)
+    return render_template("menu_manager.html",
+                           user_nickname = user.nickname,
+                           user_role = user.role_id,
+                           dict_of_projects=dict_of_projects)
+
+@my_flask_app.route("/show_stages", methods=['GET', 'POST'])
+@login_required
+def show_stages():
+    user = current_user
+    project_id = request.form.get("project_id")
+    project_name = request.args.get("id")
+    print(project_name)
+    projects_for_user = ProjectUser.query.filter(ProjectUser.user_id==user.id)
+    dict_of_projects = {}
+    for proj in projects_for_user:
+        p = Project.query.filter_by(id=proj.id)
+        for pr in p:
+            dict_of_projects[pr.id] = pr.name
+    return render_template("menu_manager.html",
+                           user_nickname = user.nickname,
+                           user_role = user.role_id,
+                           dict_of_projects=dict_of_projects)
+
 
 @login_manager.user_loader
 def load_user(userid):
@@ -82,13 +102,16 @@ def login():
       # если пользователь с тамим логином и паролем существует -
       # авторизуем и делаем редирект
         login_user(user, remember=remember_me)
-        list_of_projects = []
+        dict_of_projects = {}
         projects_for_user = ProjectUser.query.filter(ProjectUser.user_id == user.id)
         for proj in projects_for_user:
             p = Project.query.filter_by(id=proj.id)
             for pr in p:
-                list_of_projects.append(pr.name)
-        return render_template("menu_manager.html", user_nickname = user.nickname, user_role = user.role_id, list_of_projects=list_of_projects)
+                dict_of_projects[pr.id] = pr.name
+        return render_template("menu_manager.html",
+                               user_nickname = user.nickname,
+                               user_role = user.role_id,
+                               dict_of_projects=dict_of_projects)
 
     return render_template("index.html")
 
