@@ -67,8 +67,50 @@
                     {% endfor %}
                 </div>
             </div>
+
             <div class="col-sm">
-              One of three columns
+
+                {% if create_stage_button == True %}
+                    <div class="container">
+                          <!-- Button to Open the Modal -->
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                        Добавить этап
+                                        </button>
+                                    </div>
+                          <!-- The Modal -->
+                                  <div class="modal fade" id="create_stage">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                          <h4 class="modal-title">  Добавить этап  </h4>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                      <form class="form-inline my-2 my-lg-0" method="POST" action="{{ url_for('create_stage',
+                                       project_id=project_id) }}">
+                                        <div class="modal-body">
+                                          <div class="form-group">
+                                            <label class="control-label col-xs-3" for="stage_name">Название этапа : </label>
+                                            <div class="col-xs-9">
+                                              <input type="text" class="form-control" id="stage_name" name="stage_name" placeholder="Название этапа:">
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success">Создать!</button>
+                                        </div>
+                                      </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                 </div>
+                {% endif %}
             </div>
             <div class="col-sm">
               One of three columns
